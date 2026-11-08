@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: agentgrid-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: agentgrid
+      POSTGRES_USER: agentgrid
+      POSTGRES_PASSWORD: agentgrid
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - agentgrid_postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentgrid -d agentgrid"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  agentgrid_postgres_data:
+
+
+
